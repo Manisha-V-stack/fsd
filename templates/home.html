@@ -46,6 +46,17 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">🚗 Car Zone</a>
+
+        <div class="ms-auto">
+            {% if user.is_authenticated %}
+                <span class="text-white me-3">Welcome, {{ user.username }}</span>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-sm me-2">Dashboard</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-success btn-sm">Register</a>
+            {% endif %}
+        </div>
     </div>
 </nav>
 
@@ -53,7 +64,9 @@
 <div class="container mt-4">
     <form method="GET">
         <div class="input-group">
-            <input type="text" name="keyword" class="form-control" placeholder="Search cars by title..." value="{{ request.GET.keyword }}">
+            <input type="text" name="keyword" class="form-control"
+                   placeholder="Search cars by title..."
+                   value="{{ request.GET.keyword }}">
             <button class="btn btn-dark" type="submit">Search</button>
         </div>
     </form>
@@ -69,25 +82,38 @@
                     <div class="card shadow-sm">
 
                         {% if car.image %}
-                            <img src="{{ car.image.url }}" class="card-img-top" height="220" style="object-fit:cover;">
+                            <img src="{{ car.image.url }}"
+                                 class="card-img-top"
+                                 height="220"
+                                 style="object-fit:cover;">
                         {% else %}
-                            <img src="https://via.placeholder.com/350x220" class="card-img-top">
+                            <img src="https://via.placeholder.com/350x220"
+                                 class="card-img-top">
                         {% endif %}
 
                         <div class="card-body">
                             <h5 class="card-title">{{ car.title }}</h5>
+
                             <p class="card-text">
                                 <strong>Brand:</strong> {{ car.brand }} <br>
                                 <strong>Year:</strong> {{ car.year }} <br>
                                 <strong>Fuel:</strong> {{ car.fuel_type }} <br>
                                 <strong>Transmission:</strong> {{ car.transmission }}
                             </p>
-                            <p>Status: {{ car.get_status_display }}</p>
 
+                            <p>
+                                <strong>Status:</strong>
+                                {% if car.status == 'available' %}
+                                    <span class="text-success">Available</span>
+                                {% else %}
+                                    <span class="text-danger">Sold</span>
+                                {% endif %}
+                            </p>
 
                             <p class="price">₹ {{ car.price }}</p>
 
-                            <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark w-100">
+                            <a href="{% url 'car_detail' car.id %}"
+                               class="btn btn-outline-dark w-100">
                                 View Details
                             </a>
                         </div>

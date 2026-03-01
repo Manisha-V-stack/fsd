@@ -95,3 +95,24 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, 'register.html', {'form': form})
+
+
+@login_required
+def dashboard(request):
+    ...
+
+@login_required
+def add_car(request):
+    ...
+
+@login_required
+def edit_car(request, id):
+    ...
+
+@login_required
+def delete_car(request, id):
+    ...
+
+@login_required
+def contact_seller(request, id):
+    ...
