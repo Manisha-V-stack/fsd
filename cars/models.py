@@ -1,19 +1,27 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class Car(models.Model):
-    title = models.CharField(max_length=200)
+    STATUS_CHOICES = (
+        ('available', 'Available'),
+        ('sold', 'Sold'),
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    title = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
     year = models.IntegerField()
     price = models.IntegerField()
     fuel_type = models.CharField(max_length=50)
     transmission = models.CharField(max_length=50)
-    image=models.ImageField(upload_to='cars/', null=True,blank=True)
-    
     description = models.TextField()
+    image = models.ImageField(upload_to='cars/')
 
     def __str__(self):
         return self.title
+
+
 class Contact(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -21,4 +29,4 @@ class Contact(models.Model):
     message = models.TextField()
 
     def __str__(self):
-        return f"{self.name} - {self.car.title}"
+        return self.name

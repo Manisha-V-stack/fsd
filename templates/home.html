@@ -82,6 +82,8 @@
                                 <strong>Fuel:</strong> {{ car.fuel_type }} <br>
                                 <strong>Transmission:</strong> {{ car.transmission }}
                             </p>
+                            <p>Status: {{ car.get_status_display }}</p>
+
 
                             <p class="price">₹ {{ car.price }}</p>
 

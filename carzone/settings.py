@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-2f+gbmekxnga*yn1q$1op&0!b*bi9-w#7693yrrah916foitan
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['fsd-ov3h.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -119,3 +119,5 @@ STATIC_URL = "static/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'home'
