@@ -8,7 +8,7 @@
 
 <div class="container mt-5">
     <h2>My Cars</h2>
-    <a href="/add/" class="btn btn-success mb-3">Add New Car</a>
+    <a href="{% url 'add_car' %}" class="btn btn-success mb-3">Add New Car</a>
 
     <div class="row">
         {% for car in cars %}
@@ -18,8 +18,9 @@
                     <div class="card-body">
                         <h5>{{ car.title }}</h5>
                         <p>₹ {{ car.price }}</p>
-                        <a href="/edit/{{ car.id }}/" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="/delete/{{ car.id }}/" class="btn btn-danger btn-sm">Delete</a>
+
+                        <a href="{% url 'edit_car' car.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete_car' car.id %}" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                 </div>
             </div>

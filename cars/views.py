@@ -43,7 +43,7 @@ def contact_seller(request, id):
 # ---------------- DASHBOARD ----------------
 @login_required
 def dashboard(request):
-    cars = Car.objects.filter(user=request.user).order_by('-id')
+    cars = Car.objects.filter(user=request.user)
     return render(request, 'dashboard.html', {'cars': cars})
 
 
