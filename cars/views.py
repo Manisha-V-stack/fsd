@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -25,6 +24,7 @@ def car_detail(request, id):
 
 
 # ---------------- CONTACT SELLER ----------------
+@login_required
 def contact_seller(request, id):
     car = get_object_or_404(Car, id=id)
 
@@ -40,50 +40,65 @@ def contact_seller(request, id):
     return render(request, "contact.html", {"car": car})
 
 
+# ---------------- DASHBOARD ----------------
 @login_required
 def dashboard(request):
-    cars = Car.objects.filter(user=request.user)
+    cars = Car.objects.filter(user=request.user).order_by('-id')
     return render(request, 'dashboard.html', {'cars': cars})
+
+
+# ---------------- ADD CAR ----------------
 @login_required
 def add_car(request):
     if request.method == 'POST':
         Car.objects.create(
             user=request.user,
-            title=request.POST['title'],
-            brand=request.POST['brand'],
-            year=request.POST['year'],
-            price=request.POST['price'],
-            fuel_type=request.POST['fuel_type'],
-            transmission=request.POST['transmission'],
-            description=request.POST['description'],
-            image=request.FILES['image']
+            title=request.POST.get('title'),
+            brand=request.POST.get('brand'),
+            year=request.POST.get('year'),
+            price=request.POST.get('price'),
+            fuel_type=request.POST.get('fuel_type'),
+            transmission=request.POST.get('transmission'),
+            description=request.POST.get('description'),
+            image=request.FILES.get('image')
         )
         return redirect('dashboard')
 
     return render(request, 'add_car.html')
+
+
+# ---------------- EDIT CAR ----------------
 @login_required
 def edit_car(request, id):
-    car = Car.objects.get(id=id, user=request.user)
+    car = get_object_or_404(Car, id=id, user=request.user)
 
     if request.method == 'POST':
-        car.title = request.POST['title']
-        car.brand = request.POST['brand']
-        car.year = request.POST['year']
-        car.price = request.POST['price']
-        car.fuel_type = request.POST['fuel_type']
-        car.transmission = request.POST['transmission']
-        car.description = request.POST['description']
+        car.title = request.POST.get('title')
+        car.brand = request.POST.get('brand')
+        car.year = request.POST.get('year')
+        car.price = request.POST.get('price')
+        car.fuel_type = request.POST.get('fuel_type')
+        car.transmission = request.POST.get('transmission')
+        car.description = request.POST.get('description')
+
         if request.FILES.get('image'):
-            car.image = request.FILES['image']
+            car.image = request.FILES.get('image')
+
         car.save()
         return redirect('dashboard')
 
     return render(request, 'edit_car.html', {'car': car})
+
+
+# ---------------- DELETE CAR ----------------
 @login_required
 def delete_car(request, id):
-    car = Car.objects.get(id=id, user=request.user)
+    car = get_object_or_404(Car, id=id, user=request.user)
     car.delete()
     return redirect('dashboard')
+
+
+# ---------------- REGISTER ----------------
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -95,24 +110,3 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, 'register.html', {'form': form})
-
-
-@login_required
-def dashboard(request):
-    ...
-
-@login_required
-def add_car(request):
-    ...
-
-@login_required
-def edit_car(request, id):
-    ...
-
-@login_required
-def delete_car(request, id):
-    ...
-
-@login_required
-def contact_seller(request, id):
-    ...
