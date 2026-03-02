@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
+
 
 
 class Car(models.Model):
@@ -18,9 +20,9 @@ class Car(models.Model):
     fuel_type = models.CharField(max_length=50)
     transmission = models.CharField(max_length=50)
     description = models.TextField()
-    image = models.ImageField(upload_to='cars/')
     phone = models.CharField(max_length=15, blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
+    image = CloudinaryField('image')
 
     status = models.CharField(
         max_length=20,
