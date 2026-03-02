@@ -51,7 +51,10 @@
             {% if user.is_authenticated %}
                 <span class="text-white me-3">Welcome, {{ user.username }}</span>
                 <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-sm me-2">Dashboard</a>
-                <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
+                <form action="{% url 'logout' %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
                 <a href="{% url 'register' %}" class="btn btn-success btn-sm">Register</a>

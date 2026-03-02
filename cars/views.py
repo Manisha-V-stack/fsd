@@ -60,7 +60,9 @@ def add_car(request):
             fuel_type=request.POST.get('fuel_type'),
             transmission=request.POST.get('transmission'),
             description=request.POST.get('description'),
-            image=request.FILES.get('image')
+            image=request.FILES.get('image'),
+            phone=request.POST.get('phone'),      # 🔥 IMPORTANT
+            location=request.POST.get('location'),
         )
         return redirect('dashboard')
 
