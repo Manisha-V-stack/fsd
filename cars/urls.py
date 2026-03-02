@@ -13,4 +13,5 @@ urlpatterns = [
     path('edit/<int:id>/', views.edit_car, name='edit_car'),
     path('delete/<int:id>/', views.delete_car, name='delete_car'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('mark-sold/<int:id>/', views.mark_as_sold, name='mark_sold'),
 ]

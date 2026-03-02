@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 
 
 class Car(models.Model):
+
     STATUS_CHOICES = (
         ('available', 'Available'),
         ('sold', 'Sold'),
     )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=100)
@@ -17,8 +19,14 @@ class Car(models.Model):
     transmission = models.CharField(max_length=50)
     description = models.TextField()
     image = models.ImageField(upload_to='cars/')
-    phone = models.CharField(max_length=15,blank=True,null=True)
-    location = models.CharField(max_length=200,blank=True,null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    location = models.CharField(max_length=200, blank=True, null=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='available'
+    )
 
     def __str__(self):
         return self.title

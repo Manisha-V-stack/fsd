@@ -112,3 +112,9 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, 'register.html', {'form': form})
+@login_required
+def mark_as_sold(request, id):
+    car = Car.objects.get(id=id, user=request.user)
+    car.status = 'sold'
+    car.save()
+    return redirect('dashboard')

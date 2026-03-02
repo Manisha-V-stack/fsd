@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Car
-from .models import Contact
-
-admin.site.register(Contact)
+from .models import Car, Contact
 
 admin.site.register(Car)
+admin.site.register(Contact)

@@ -8,19 +8,46 @@
 
 <div class="container mt-5">
     <h2>My Cars</h2>
-    <a href="{% url 'add_car' %}" class="btn btn-success mb-3">Add New Car</a>
+
+    <a href="{% url 'add_car' %}" class="btn btn-success mb-4">Add New Car</a>
 
     <div class="row">
         {% for car in cars %}
             <div class="col-md-4 mb-4">
                 <div class="card shadow">
-                    <img src="{{ car.image.url }}" class="card-img-top" height="200" style="object-fit:cover;">
+
+                    {% if car.image %}
+                        <img src="{{ car.image.url }}" class="card-img-top"
+                             height="200" style="object-fit:cover;">
+                    {% endif %}
+
                     <div class="card-body">
                         <h5>{{ car.title }}</h5>
-                        <p>₹ {{ car.price }}</p>
 
-                        <a href="{% url 'edit_car' car.id %}" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="{% url 'delete_car' car.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        <p><strong>Price:</strong> ₹ {{ car.price }}</p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {% if car.status == 'available' %}
+                                <span class="badge bg-success">Available</span>
+                            {% else %}
+                                <span class="badge bg-danger">Sold</span>
+                            {% endif %}
+                        </p>
+
+                        <a href="{% url 'edit_car' car.id %}"
+                           class="btn btn-warning btn-sm">Edit</a>
+
+                        <a href="{% url 'delete_car' car.id %}"
+                           class="btn btn-danger btn-sm">Delete</a>
+
+                        {% if car.status == 'available' %}
+                            <a href="{% url 'mark_sold' car.id %}"
+                               class="btn btn-primary btn-sm">
+                                Mark as Sold
+                            </a>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
