@@ -102,7 +102,13 @@
 
             {% if user.is_authenticated %}
                 <a href="{% url 'dashboard' %}" class="btn btn-outline-light me-2">Dashboard</a>
-                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+
+                <!-- FIXED LOGOUT (POST METHOD) -->
+                <form action="{% url 'logout' %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+
             {% else %}
                 <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
                 <a href="{% url 'register' %}" class="btn btn-success">Register</a>
@@ -121,7 +127,9 @@
 <div class="container mt-4">
     <form method="GET">
         <div class="input-group shadow">
-            <input type="text" name="keyword" class="form-control p-3" placeholder="Search cars by title..." value="{{ request.GET.keyword }}">
+            <input type="text" name="keyword" class="form-control p-3"
+                   placeholder="Search cars by title..."
+                   value="{{ request.GET.keyword }}">
             <button class="btn btn-dark px-4">Search</button>
         </div>
     </form>
@@ -136,7 +144,9 @@
             <div class="card shadow-sm">
 
                 {% if car.image %}
-                <img src="{{ car.image.url }}" class="card-img-top" height="230" style="object-fit:cover; border-top-left-radius:15px; border-top-right-radius:15px;">
+                <img src="{{ car.image.url }}" class="card-img-top"
+                     height="230"
+                     style="object-fit:cover; border-top-left-radius:15px; border-top-right-radius:15px;">
                 {% endif %}
 
                 <div class="card-body">
@@ -156,7 +166,8 @@
 
                     <p class="price">₹ {{ car.price }}</p>
 
-                    <a href="{% url 'car_detail' car.id %}" class="btn btn-premium w-100 mt-2">
+                    <a href="{% url 'car_detail' car.id %}"
+                       class="btn btn-premium w-100 mt-2">
                         View Details
                     </a>
                 </div>
