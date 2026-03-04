@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import cloudinary
 import dj_database_url
+from django.contrib.auth import get_user_model
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,9 +64,18 @@ WSGI_APPLICATION = 'carzone.wsgi.application'
 
 # DATABASE (SQLite)
 # DATABASE (PostgreSQL from Render)
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+if os.environ.get("DATABASE_URL"):
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 
 # PASSWORD VALIDATION
 AUTH_PASSWORD_VALIDATORS = [
@@ -101,3 +111,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+
+User = get_user_model()
+
+if not User.objects.filter(username="admin").exists():
+    User.objects.create_superuser("admin", "admin@gmail.com", "admin123")
