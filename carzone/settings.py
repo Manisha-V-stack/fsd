@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 import cloudinary
 import dj_database_url
-from django.contrib.auth import get_user_model
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -113,7 +112,3 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 
-User = get_user_model()
-
-if not User.objects.filter(username="admin").exists():
-    User.objects.create_superuser("admin", "admin@gmail.com", "admin123")
