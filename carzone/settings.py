@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # For Render (you can restrict later)
 
